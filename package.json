@@ -1,0 +1,40 @@
+{
+  "name": "devping",
+  "version": "0.0.1",
+  "description": "macOS notification CLI for AI agent attention requests.",
+  "keywords": [
+    "macos",
+    "notification",
+    "codex",
+    "claude",
+    "iterm2",
+    "terminal-notifier"
+  ],
+  "author": "raincoldz",
+  "type": "commonjs",
+  "files": [
+    "bin",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "bin": {
+    "devping": "./bin/devping"
+  },
+  "scripts": {
+    "check": "node --check bin/devping && node --check src/cli.js && node --check src/notify.js && node --check src/profiles.js && node --check src/tty.js && node --check src/iterm.js",
+    "list": "node bin/devping --list-profiles"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/raincoldz/devping.git"
+  },
+  "bugs": {
+    "url": "https://github.com/raincoldz/devping/issues"
+  },
+  "homepage": "https://github.com/raincoldz/devping#readme",
+  "license": "MIT"
+}
