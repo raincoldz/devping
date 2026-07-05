@@ -33,13 +33,33 @@ function getIterm2ActiveTty() {
   return normalizeTty(run('osascript', ['-e', script]));
 }
 
-function isActiveTab(myTty = getMyTty(), activeTty = getIterm2ActiveTty()) {
-  return Boolean(myTty && activeTty && myTty === activeTty);
+function getFrontmostAppName() {
+  const script = `
+    tell application "System Events"
+      return name of first process whose frontmost is true
+    end tell
+  `;
+
+  return run('osascript', ['-e', script]);
+}
+
+function isIterm2Frontmost(frontmostAppName = getFrontmostAppName()) {
+  return frontmostAppName === 'iTerm2';
+}
+
+function isActiveTab(myTty = getMyTty(), activeTty, frontmostAppName) {
+  const resolvedFrontmostAppName = frontmostAppName || getFrontmostAppName();
+  if (!isIterm2Frontmost(resolvedFrontmostAppName)) return false;
+
+  const resolvedActiveTty = activeTty || getIterm2ActiveTty();
+  return Boolean(myTty && resolvedActiveTty && myTty === resolvedActiveTty);
 }
 
 module.exports = {
+  getFrontmostAppName,
   getIterm2ActiveTty,
   getMyTty,
+  isIterm2Frontmost,
   isActiveTab,
   normalizeTty
 };

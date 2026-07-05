@@ -1,11 +1,13 @@
 # devping
 
+[English](README.md) | [简体中文](README.zh-CN.md)
+
 > macOS notifications for terminal-based AI agents.
 
 [![npm version](https://img.shields.io/npm/v/devping.svg)](https://www.npmjs.com/package/devping)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-`devping` is a lightweight macOS CLI utility that delivers native desktop notifications for terminal-based AI coding agents, including Codex, Claude Code, Cursor, and custom integrations. It can skip notifications when the originating iTerm2 tab is already active, and clicking a notification can return you to the tab that triggered it.
+`devping` is a lightweight macOS CLI utility that delivers native desktop notifications for terminal-based AI coding agents, including Codex, Claude Code, Cursor, and custom integrations. It can skip notifications when iTerm2 is frontmost and the originating tab is already active, and clicking a notification can return you to the tab that triggered it.
 
 `devping` is an independent project and is not affiliated with OpenAI, Anthropic, Cursor, iTerm2, or terminal-notifier.
 
@@ -13,7 +15,7 @@
 
 - **Native macOS notifications** - powered by `terminal-notifier`
 - **Built-in agent profiles** - preconfigured for Codex, Claude Code, Cursor, with a generic `default` profile for custom agents
-- **Smart tab awareness** - automatically suppress notifications when the triggering iTerm2 tab is already active
+- **Smart tab awareness** - suppress notifications only when iTerm2 is frontmost and the triggering tab is already active
 - **Click-to-return** - click any notification to jump back to the originating iTerm2 tab
 - **Customizable profiles** - override sounds, titles, icons, and default messages via `~/.devping/profiles.json`
 
@@ -52,7 +54,7 @@ Basic usage:
 devping --profile codex --message "Action required"
 ```
 
-Force a notification even when the current iTerm2 tab is active:
+Force a notification even when iTerm2 is frontmost and the current tab is active:
 
 ```sh
 devping --profile codex --message "Action required" --force

@@ -25,7 +25,7 @@ Options:
   --profile <name>     Profile name. Defaults to "default".
   --message <text>     Notification message.
   --sound <name>       macOS sound name. Use "none" to disable.
-  --force              Notify even when the current iTerm2 tab is active.
+  --force              Notify even when iTerm2 is frontmost and the originating tab is active.
   --activate           Activation callback used by notification clicks.
   --tty <tty>          Target TTY for activation callback.
   --print-command      Print the activation command instead of notifying.
