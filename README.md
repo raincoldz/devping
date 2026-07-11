@@ -1,10 +1,9 @@
 # devping
 
-[English](README.md) | [简体中文](README.zh-CN.md)
+[English](README.md) | [简体中文](README_zh.md)
 
 > macOS notifications for terminal-based AI agents.
 
-[![npm version](https://img.shields.io/npm/v/devping.svg)](https://www.npmjs.com/package/devping)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 `devping` is a lightweight macOS CLI utility that delivers native desktop notifications for terminal-based AI coding agents, including Codex, Claude Code, Cursor, and custom integrations. It can skip notifications when iTerm2 is frontmost and the originating tab is already active, and clicking a notification can return you to the tab that triggered it.
@@ -32,10 +31,12 @@ Install `terminal-notifier`:
 brew install terminal-notifier
 ```
 
-## Install
+## Install from Source
 
 ```sh
-npm install -g devping
+git clone https://github.com/raincoldz/devping.git
+cd devping
+npm link
 ```
 
 Verify:
@@ -182,15 +183,11 @@ If `devping` is not on the Claude Code hook `PATH`, replace `devping` with the a
 **Dependencies**
 
 - Notification images are optional and must be configured by the user.
-- `terminal-notifier` is an external dependency and is not bundled with this package.
+- `terminal-notifier` is an external dependency and is not bundled with this project.
 
 ## Contributing
 
 PRs and issues are welcome.
-
-## Releases
-
-See [GitHub Releases](https://github.com/raincoldz/devping/releases).
 
 ## Acknowledgments
 

@@ -1,6 +1,6 @@
 {
   "name": "devping",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "macOS notification CLI for AI agent attention requests.",
   "keywords": [
     "macos",
@@ -14,16 +14,20 @@
   "type": "commonjs",
   "files": [
     "bin",
-    "src",
+    "dist",
     "README.md",
     "LICENSE"
   ],
   "bin": {
-    "devping": "./bin/devping"
+    "devping": "bin/devping"
   },
   "scripts": {
-    "check": "node --check bin/devping && node --check src/cli.js && node --check src/notify.js && node --check src/profiles.js && node --check src/tty.js && node --check src/iterm.js",
-    "list": "node bin/devping --list-profiles"
+    "build": "node scripts/build.js",
+    "check": "npm run check:src && npm run check:dist",
+    "check:src": "node --check src/cli.js src/notify.js src/profiles.js src/tty.js src/iterm.js",
+    "check:dist": "npm run build && node --check bin/devping dist/devping.cjs",
+    "list": "node bin/devping --list-profiles",
+    "prepack": "npm run build"
   },
   "engines": {
     "node": ">=18"

@@ -1,10 +1,9 @@
 # devping
 
-[English](README.md) | [简体中文](README.zh-CN.md)
+[English](README.md) | [简体中文](README_zh.md)
 
 > 为终端里的 AI Agent 提供 macOS 原生通知。
 
-[![npm version](https://img.shields.io/npm/v/devping.svg)](https://www.npmjs.com/package/devping)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 `devping` 是一个轻量级 macOS CLI 工具，用于为终端里的 AI 编程 Agent 发送原生桌面通知，适用于 Codex、Claude Code、Cursor 以及自定义集成。它只会在 iTerm2 是前台应用且触发通知的标签页就是当前标签页时自动跳过通知，也可以在点击通知后回到触发它的 iTerm2 标签页。
@@ -32,10 +31,12 @@
 brew install terminal-notifier
 ```
 
-## 安装
+## 从源码安装
 
 ```sh
-npm install -g devping
+git clone https://github.com/raincoldz/devping.git
+cd devping
+npm link
 ```
 
 验证安装：
@@ -182,15 +183,11 @@ Codex 可能会要求你通过 `/hooks` 审查并信任 hook。
 **依赖**
 
 - 通知图片是可选项，需要用户自行配置。
-- `terminal-notifier` 是外部依赖，不会随此 npm 包一起打包。
+- `terminal-notifier` 是外部依赖，不会随此项目一起打包。
 
 ## 贡献
 
 欢迎提交 PR 和 issue。
-
-## 发布
-
-查看 [GitHub Releases](https://github.com/raincoldz/devping/releases)。
 
 ## 致谢
 

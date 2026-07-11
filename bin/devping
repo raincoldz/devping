@@ -1,6 +1,14 @@
 #!/usr/bin/env node
 
-require('../src/cli').main(process.argv.slice(2)).catch((error) => {
-  console.error(error && error.message ? error.message : String(error));
-  process.exitCode = 1;
-});
+try {
+  require('../dist/devping.cjs');
+} catch (error) {
+  if (error && error.code === 'MODULE_NOT_FOUND') {
+    require('../src/cli').main(process.argv.slice(2)).catch((cliError) => {
+      console.error(cliError && cliError.message ? cliError.message : String(cliError));
+      process.exitCode = 1;
+    });
+  } else {
+    throw error;
+  }
+}
