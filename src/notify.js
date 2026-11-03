@@ -38,12 +38,31 @@ function findTerminalNotifierApp() {
   throw new Error('terminal-notifier.app not found. Install it with: brew install terminal-notifier');
 }
 
-function buildActivationCommand(tty) {
-  const cliPath = path.resolve(__dirname, '..', 'bin', 'devping');
-  return `${process.execPath} ${cliPath} --activate --tty ${tty}`;
+function shellQuote(value) {
+  return `'${String(value).replace(/'/g, `'\\''`)}'`;
 }
 
-function sendNotification({ profile, message, sound, tty }) {
+function buildItermRevealUrl(sessionId) {
+  return `iterm2:reveal?sessionid=${encodeURIComponent(sessionId)}`;
+}
+
+function buildActivationCommand(tty, sessionId) {
+  if (tty) {
+    const invokedScript = process.argv[1];
+    const cliPath = invokedScript && path.basename(invokedScript) === 'devping'
+      ? path.resolve(invokedScript)
+      : path.resolve(__dirname, '..', 'bin', 'devping');
+    return `${shellQuote(process.execPath)} ${shellQuote(cliPath)} --activate --tty ${shellQuote(tty)}`;
+  }
+
+  if (sessionId) {
+    return `/usr/bin/open ${shellQuote(buildItermRevealUrl(sessionId))}`;
+  }
+
+  return null;
+}
+
+function sendNotification({ profile, message, sound, tty, itermSessionId }) {
   const appPath = findTerminalNotifierApp();
   const args = [
     '-a',
@@ -68,6 +87,8 @@ function sendNotification({ profile, message, sound, tty }) {
 
   if (tty) {
     args.push('-execute', buildActivationCommand(tty));
+  } else if (itermSessionId) {
+    args.push('-open', buildItermRevealUrl(itermSessionId));
   }
 
   const child = spawn('open', args, {
@@ -79,6 +100,7 @@ function sendNotification({ profile, message, sound, tty }) {
 
 module.exports = {
   buildActivationCommand,
+  buildItermRevealUrl,
   findTerminalNotifierApp,
   sendNotification
 };

@@ -1,7 +1,7 @@
 const { activateItermTabByTty } = require('./iterm');
 const { sendNotification } = require('./notify');
 const { getProfile, loadProfiles } = require('./profiles');
-const { getMyTty, isActiveTab } = require('./tty');
+const { getFrontmostAppName, getIterm2ActiveTty, getMyTty } = require('./tty');
 const { version } = require('../package.json');
 const fs = require('fs');
 
@@ -118,9 +118,20 @@ async function main(argv = process.argv.slice(2)) {
   }
 
   let active = false;
-  if (!options.force && tty) {
+  let frontmostApp = null;
+  if (!options.force) {
     try {
-      active = isActiveTab(tty);
+      frontmostApp = getFrontmostAppName();
+      if (frontmostApp === 'iTerm2') {
+        if (tty) {
+          const activeTty = getIterm2ActiveTty();
+          active = Boolean(activeTty && tty === activeTty);
+        } else {
+          // Codex hooks may not have a readable TTY. If iTerm2 is foreground,
+          // prefer suppressing a possibly spurious alert over notifying in use.
+          active = true;
+        }
+      }
     } catch {
       active = false;
     }
@@ -132,7 +143,8 @@ async function main(argv = process.argv.slice(2)) {
 
   if (options.printCommand) {
     const { buildActivationCommand } = require('./notify');
-    process.stdout.write(`${buildActivationCommand(tty)}\n`);
+    const command = buildActivationCommand(tty, process.env.ITERM_SESSION_ID);
+    if (command) process.stdout.write(`${command}\n`);
     return;
   }
 
@@ -140,7 +152,8 @@ async function main(argv = process.argv.slice(2)) {
     profile,
     message: options.message,
     sound: options.sound,
-    tty
+    tty,
+    itermSessionId: process.env.ITERM_SESSION_ID
   });
 }
 
